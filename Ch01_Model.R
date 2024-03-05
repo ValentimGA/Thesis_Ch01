@@ -56,7 +56,8 @@ fishBase <- fishCOUNTRY %>%
     left_join(fishNAMES, by = "SpecCode") %>%
     left_join(fishSPECIES, by = "SpecCode") %>%
     filter(Status == "native") %>%
-    filter(Saltwater == 1)
+    filter(Saltwater == 1 &
+               Brack == 1)
 
 fishes <- fishBase %>%
     select("SpecCode", "Species", "CSub_Code", "Status") %>%
@@ -219,19 +220,4 @@ ordem <- c("SpecCode", "Species", "Lat", "Long", "geometry", "Source")
     dataFishes <- dataFishes_sf %>%
         group_by(Species) %>%
         summarise(n())
-        
-# plots ------------------------------------------------------------------------    
-    
-    library(ggplot2)
-    ggplot() +
-        borders(database = "world",fill = "lightgray", colour = "gray") +
-        geom_point(data = data_aquamaps, aes(x = CenterLong, y = CenterLat), 
-                   shape = 21, colour = "red4", fill = "red2", alpha = 0.5, size = 3) +
-        #coord_fixed(xlim = c(-120,-30), ylim = c(-60,50)) +
-        theme_gray(base_size = 12)+
-        theme(panel.background = element_rect(fill = "lightcyan1"),
-              panel.grid.minor = element_blank(),
-              panel.grid.major = element_line(colour = "lightgray",
-                                              linetype = "dashed",
-                                              linewidth = 0.5))
     
